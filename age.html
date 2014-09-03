@@ -3,29 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <title>Age game</title>
+<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 <style>
+	.clearfix:before {
+		display: table;
+		content: "";
+		line-height: 0;
+	}
+	.clearfix:after {
+		display: table;
+		content: "";
+		line-height: 0;
+		clear: both;
+	}
 	* {
 		margin: 0;
 		padding: 0;
+		font-size: 10px;
+		font-family: 'Oswald', sans-serif;
+		font-weight: 400;
 	}
 	body {
-		margin: 50px;
+		margin: 50px 0;
+		background-color: #f1f1f1;
+	}
+	.row {
+		clear: both;
+		margin-bottom: 40px;
+	}
+	.grid {
+		float: left;
+		width: 33.3333333333%;
+		margin: 0;
+		border-top: 3px solid #999999;
+		-webkit-transition: all 0.4s ease-in-out;
+		   -moz-transition: all 0.4s ease-in-out;
+		    -ms-transition: all 0.4s ease-in-out;
+		     -o-transition: all 0.4s ease-in-out;
+		        transition: all 0.4s ease-in-out;
+	}
+	/* Portrait */
+	@media screen and (max-width: 600px) {
+		.grid {
+			float: none;
+			width: 100%;
+		}
 	}
 	.box {
-		margin: 20px auto;
+		margin: 0;
+		padding: 20px 0;
 		text-align: center;
-		background-color: #999999;
-		padding: 40px;
 		font-size: 2em;
-		color: #ffffff;
-		border-radius: 5px;
+		color: #555555;
+		display: block;
+		min-height: 160px;
+	}
+	h1 {
+		margin-bottom: 20px;
+		font-size: 2em;
+	}
+	h2 {
+		margin-bottom: 20px;
+		font-size: 1.1em;
+		color: #777777;
 	}
 	button {
-		padding: 10px;
-		background color: #444444;
+		padding: 5px;
+		margin: 0 auto 20px auto;
+		background-color: #ffffff;
 		border: 1px solid #BABCBE;
 		border-radius: 5px;
-		margin: 0 20px 0 0;
+		font-size: 0.7em;
+		display: block;
+		box-sizing: border-box;
+		width: 50%;
+		text-align: center;
+		box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) inset;
+	}
+	input {
+		padding: 10px;
+		margin: 0 auto 20px auto;
+		background-color: #ffffff;
+		border: 1px solid #BABCBE;
+		border-radius: 5px;
+		font-size: 2em;
+		display: block;
+		box-sizing: border-box;
+		width: 50%;
+		text-align: center;
+		box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) inset;
+	}
+	::-moz-placeholder {
+	   color: #999999;  
 	}
 </style>
 </head>
@@ -38,17 +107,27 @@ real time input fields
 second widget
 -->
 
-
-	<!-- <button id="humanAgebutton">Users age</button> -->
-	<label for="humanAgeInput">Users age</label>
-	<input id="humanAgeInput"></input>
-
-	<button id="computerAgeButton">Computers age</button>
-	<button id="whoIsOlderButton">Who is older?</button> 
-
-	<div id="humanAgeBox" class="box"></div>
-	<div id="computerAgeBox" class="box"></div>
-	<div id="whoIsOlderBox" class="box"></div>
+<div class="row clearfix">
+	<div class="grid">
+		<div class="box">
+			<h2>Your age is:</h2>
+			<input id="humanAgeInput" maxlength="3" placeholder="?" autofocus />
+			<button id="resetAllButton">Try again</button>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="box">
+			<h2>Computers age is:</h2>
+			<h1 id="computerAgeBox">?</h1>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="box">
+			<h2>Who is older?</h2>
+			<h1 id="whoIsOlderBox">?</h1>
+		</div>
+	</div>
+</div>
 
 
 
@@ -59,47 +138,52 @@ ageGame();
 function ageGame() {
 
 	// ages
-	var computerAge = generateComputerAge(1, 200);
+	var computerAge = generateComputerAge(1, 999);
 	var humanAge;
 
 	// find UI elements
-	// var humanAgebutton = getElementByClass("#humanAgebutton");
 	var humanAgeInput = getElementByClass("#humanAgeInput");
-	var computerAgeButton = getElementByClass("#computerAgeButton");
-	var whoIsOlderButton = getElementByClass("#whoIsOlderButton");
 	var humanAgeBox = getElementByClass("#humanAgeBox");
 	var computerAgeBox = getElementByClass("#computerAgeBox");
 	var whoIsOlderBox = getElementByClass("#whoIsOlderBox");
+	var resetAllButton = getElementByClass("#resetAllButton");
 
 	// listners 
-	// humanAgebutton.addEventListener("click", getHumanAge);
 	humanAgeInput.addEventListener("input", getHumanAge);
-	computerAgeButton.addEventListener("click", makeComputerAge);
-	whoIsOlderButton.addEventListener("click", whoIsOlder);
+	humanAgeInput.addEventListener("input", writeComputerAge);
+	humanAgeInput.addEventListener("input", whoIsOlder);
+	resetAllButton.addEventListener("click", resetAll);
+
+	function getElementByClass(css) {
+		return document.querySelector(css);
+	};
 
 	function generateComputerAge(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
+		computerAgeBox.textContent = computerAge;
 	};
 
-	function makeComputerAge() {
-		computerAgeBox.textContent = "Computers age is " + computerAge + ". ";
+	function writeComputerAge() {
+		computerAgeBox.textContent = computerAge;
 	};
+
+	function resetAll() {
+		humanAgeInput.value = "";
+		computerAgeBox.textContent = "?";
+		whoIsOlderBox.textContent = "?";
+		generateComputerAge(1, 999);
+	}
 
 	function getHumanAge() {
 		humanAge = humanAgeInput.value;
-		humanAgeBox.textContent = "Human age is " + humanAge + ". ";
 	};
 
 	function whoIsOlder() {
 		if (humanAge >= computerAge) {
-			whoIsOlderBox.textContent = "Human is older.";
+			whoIsOlderBox.textContent = "You are!"; // human is older
 		} else {
-			whoIsOlderBox.textContent = "Computer is older.";
+			whoIsOlderBox.textContent = "I am!"; // computer is older
 		};
-	};
-
-	function getElementByClass(css) {
-		return document.querySelector(css);
 	};
 
 };
