@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Age game</title>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		margin: 50px;
+	}
+	.box {
+		margin: 20px auto;
+		text-align: center;
+		background-color: #999999;
+		padding: 40px;
+		font-size: 2em;
+		color: #ffffff;
+		border-radius: 5px;
+	}
+	button {
+		padding: 10px;
+		background color: #444444;
+		border: 1px solid #BABCBE;
+		border-radius: 5px;
+		margin: 0 20px 0 0;
+	}
+</style>
+</head>
+<body>
+
+<!-- 
+task:
+
+real time input fields
+second widget
+-->
+
+
+	<!-- <button id="humanAgebutton">Users age</button> -->
+	<label for="humanAgeInput">Users age</label>
+	<input id="humanAgeInput"></input>
+
+	<button id="computerAgeButton">Computers age</button>
+	<button id="whoIsOlderButton">Who is older?</button> 
+
+	<div id="humanAgeBox" class="box"></div>
+	<div id="computerAgeBox" class="box"></div>
+	<div id="whoIsOlderBox" class="box"></div>
+
+
+
+<script>
+
+ageGame();
+
+function ageGame() {
+
+	// ages
+	var computerAge = generateComputerAge(1, 200);
+	var humanAge;
+
+	// find UI elements
+	// var humanAgebutton = getElementByClass("#humanAgebutton");
+	var humanAgeInput = getElementByClass("#humanAgeInput");
+	var computerAgeButton = getElementByClass("#computerAgeButton");
+	var whoIsOlderButton = getElementByClass("#whoIsOlderButton");
+	var humanAgeBox = getElementByClass("#humanAgeBox");
+	var computerAgeBox = getElementByClass("#computerAgeBox");
+	var whoIsOlderBox = getElementByClass("#whoIsOlderBox");
+
+	// listners 
+	// humanAgebutton.addEventListener("click", getHumanAge);
+	humanAgeInput.addEventListener("input", getHumanAge);
+	computerAgeButton.addEventListener("click", makeComputerAge);
+	whoIsOlderButton.addEventListener("click", whoIsOlder);
+
+	function generateComputerAge(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	};
+
+	function makeComputerAge() {
+		computerAgeBox.textContent = "Computers age is " + computerAge + ". ";
+	};
+
+	function getHumanAge() {
+		humanAge = humanAgeInput.value;
+		humanAgeBox.textContent = "Human age is " + humanAge + ". ";
+	};
+
+	function whoIsOlder() {
+		if (humanAge >= computerAge) {
+			whoIsOlderBox.textContent = "Human is older.";
+		} else {
+			whoIsOlderBox.textContent = "Computer is older.";
+		};
+	};
+
+	function getElementByClass(css) {
+		return document.querySelector(css);
+	};
+
+};
+
+</script>
+
+
+</body>
+</html>
