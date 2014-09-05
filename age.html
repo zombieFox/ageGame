@@ -78,7 +78,35 @@
 		box-sizing: border-box;
 		width: 50%;
 		text-align: center;
-		box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) inset;
+		box-shadow: 0 2px 0 #D6D6D6 inset;
+		position: relative;
+		top: 0;
+		-webkit-transition: all 0.1s ease-in-out;
+		   -moz-transition: all 0.1s ease-in-out;
+		    -ms-transition: all 0.1s ease-in-out;
+		     -o-transition: all 0.1s ease-in-out;
+		        transition: all 0.1s ease-in-out;
+	}
+	button:hover {
+		-webkit-transform: scale(1.05);
+		   -moz-transform: scale(1.05);
+		    -ms-transform: scale(1.05);
+		     -o-transform: scale(1.05);
+		        transform: scale(1.05);
+	}
+	button:active {
+		background-color: #D6D6D6;
+		top: 2px;
+		-webkit-transform: scale(0.99);
+		   -moz-transform: scale(0.99);
+		    -ms-transform: scale(0.99);
+		     -o-transform: scale(0.99);
+		        transform: scale(0.99);
+		-webkit-transition: all 0.05s ease-in-out;
+		   -moz-transition: all 0.05s ease-in-out;
+		    -ms-transition: all 0.05s ease-in-out;
+		     -o-transition: all 0.05s ease-in-out;
+		        transition: all 0.05s ease-in-out;
 	}
 	input {
 		padding: 10px;
@@ -91,7 +119,7 @@
 		box-sizing: border-box;
 		width: 50%;
 		text-align: center;
-		box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) inset;
+		box-shadow: 0 2px 0 #D6D6D6 inset;
 	}
 	::-moz-placeholder {
 	   color: #999999;  
@@ -133,12 +161,12 @@ second widget
 
 <script>
 
-ageGame();
+numberGame();
 
-function ageGame() {
+function numberGame() {
 
 	// ages
-	var computerAge = generateComputerAge(1, 999);
+	var computerAge = generateComputerAge(1, 100);
 	var humanAge;
 
 	// find UI elements
@@ -147,31 +175,41 @@ function ageGame() {
 	var computerAgeBox = getElementByClass("#computerAgeBox");
 	var whoIsOlderBox = getElementByClass("#whoIsOlderBox");
 	var resetAllButton = getElementByClass("#resetAllButton");
+	var reCookButtom = getElementByClass("#reCook");
 
 	// listners 
 	humanAgeInput.addEventListener("input", getHumanAge);
-	humanAgeInput.addEventListener("input", writeComputerAge);
+	// humanAgeInput.addEventListener("input", writeComputerAge);
 	humanAgeInput.addEventListener("input", whoIsOlder);
 	resetAllButton.addEventListener("click", resetAll);
+	humanAgeInput.addEventListener("input", reCook);
+	// humanAgeInput.addEventListener("blur", resetAll);
 
 	function getElementByClass(css) {
 		return document.querySelector(css);
 	};
 
-	function generateComputerAge(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-		computerAgeBox.textContent = computerAge;
+	function reCook() {
+		var randomnumber = Math.floor(Math.random() * (999 - 1 + 1)) + 1;
+		computerAgeBox.textContent = randomnumber;
 	};
 
-	function writeComputerAge() {
-		computerAgeBox.textContent = computerAge;
+	function generateComputerAge(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+			console.log(generateComputerAge);
+		function writeComputerAge() {
+			computerAgeBox.textContent = computerAge;
+			console.log(computerAge);
+		};
 	};
+
+
 
 	function resetAll() {
 		humanAgeInput.value = "";
 		computerAgeBox.textContent = "?";
 		whoIsOlderBox.textContent = "?";
-		generateComputerAge(1, 999);
+		humanAgeInput.focus();
 	}
 
 	function getHumanAge() {
