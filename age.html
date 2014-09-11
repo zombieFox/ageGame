@@ -140,7 +140,6 @@ second widget
 		<div class="box">
 			<h2>Your age is:</h2>
 			<input id="humanAgeInput" maxlength="3" placeholder="?" autofocus />
-			<button id="resetAllButton">Try again</button>
 		</div>
 	</div>
 	<div class="grid">
@@ -174,43 +173,28 @@ function numberGame() {
 	var humanAgeBox = getElementByClass("#humanAgeBox");
 	var computerAgeBox = getElementByClass("#computerAgeBox");
 	var whoIsOlderBox = getElementByClass("#whoIsOlderBox");
-	var resetAllButton = getElementByClass("#resetAllButton");
 	var reCookButtom = getElementByClass("#reCook");
 
 	// listners 
 	humanAgeInput.addEventListener("input", getHumanAge);
-	// humanAgeInput.addEventListener("input", writeComputerAge);
 	humanAgeInput.addEventListener("input", whoIsOlder);
-	resetAllButton.addEventListener("click", resetAll);
 	humanAgeInput.addEventListener("input", reCook);
-	// humanAgeInput.addEventListener("blur", resetAll);
 
 	function getElementByClass(css) {
 		return document.querySelector(css);
 	};
 
 	function reCook() {
-		var randomnumber = Math.floor(Math.random() * (999 - 1 + 1)) + 1;
-		computerAgeBox.textContent = randomnumber;
+		if (humanAgeInput.value.length === 3) {
+			var randomnumber = generateComputerAge(1, 999);
+			computerAgeBox.textContent = randomnumber;
+		};
 	};
 
 	function generateComputerAge(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
-			console.log(generateComputerAge);
-		function writeComputerAge() {
-			computerAgeBox.textContent = computerAge;
-			console.log(computerAge);
-		};
 	};
 
-
-
-	function resetAll() {
-		humanAgeInput.value = "";
-		computerAgeBox.textContent = "?";
-		whoIsOlderBox.textContent = "?";
-		humanAgeInput.focus();
-	}
 
 	function getHumanAge() {
 		humanAge = humanAgeInput.value;
