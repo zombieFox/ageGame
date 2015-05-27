@@ -185,8 +185,8 @@ function numberGame() {
 	};
 
 	function reCook() {
-		if (humanAgeInput.value.length === 3) {
-			var randomnumber = generateComputerAge(1, 999);
+		if (humanAgeInput.value.length === 1) {
+			var randomnumber = generateComputerAge(1, 50);
 			computerAgeBox.textContent = randomnumber;
 		};
 	};
